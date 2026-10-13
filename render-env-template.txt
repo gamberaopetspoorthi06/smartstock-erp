@@ -1,0 +1,22 @@
+## Aiven MySQL — Environment Variables for Render
+## Copy-paste these exact values into Render dashboard → Environment tab
+
+## STEP 1: After creating your Aiven MySQL service, get these values from:
+## Aiven Console → Your Service → Overview → Connection Information
+
+SPRING_DATASOURCE_URL=jdbc:mysql://PASTE_AIVEN_HOST:PASTE_PORT/defaultdb?ssl-mode=REQUIRED&serverTimezone=UTC
+SPRING_DATASOURCE_USERNAME=avnadmin
+SPRING_DATASOURCE_PASSWORD=PASTE_AIVEN_PASSWORD
+
+## STEP 2: These are already set — don't change
+SPRING_DATASOURCE_DRIVER=com.mysql.cj.jdbc.Driver
+SPRING_JPA_PLATFORM=org.hibernate.dialect.MySQL8Dialect
+DB_POOL_SIZE=3
+PORT=8080
+
+## STEP 3: After Vercel deploys, paste your live URL here
+CORS_ALLOWED_ORIGINS=https://YOUR-PROJECT.vercel.app
+
+## STEP 4: JWT_SECRET — In Render, click "Generate" instead of pasting
+## Render will auto-create a cryptographically secure random value
+JWT_SECRET=<click_generate_in_render>
