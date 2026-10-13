@@ -1,0 +1,30 @@
+services:
+  # ── Spring Boot Backend ──────────────────────────────────────────────────────
+  - type: web
+    name: smartstock-erp-backend
+    runtime: java
+    plan: free
+    region: singapore          # Closest to India
+    rootDir: backend
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -Djava.security.egd=file:/dev/./urandom -jar target/erp-backend-1.0.0.jar
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false            # Set manually in Render dashboard — paste Aiven JDBC URL
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false            # Aiven MySQL username
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false            # Aiven MySQL password
+      - key: SPRING_DATASOURCE_DRIVER
+        value: com.mysql.cj.jdbc.Driver
+      - key: SPRING_JPA_PLATFORM
+        value: org.hibernate.dialect.MySQL8Dialect
+      - key: JWT_SECRET
+        generateValue: true    # Render auto-generates a secure random value
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false            # Set to your Vercel URL after deployment
+      - key: DB_POOL_SIZE
+        value: "3"
+      - key: PORT
+        value: "8080"

@@ -1,0 +1,60 @@
+# ==============================================================================
+# SmartStock ERP - Spring Boot Backend Configuration
+# Reads all sensitive values from ENVIRONMENT VARIABLES (set in Render dashboard)
+# ==============================================================================
+
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: erp-backend
+
+  # ── Aiven MySQL (Production) ─────────────────────────────────────────────────
+  # All values injected via Render environment variables — never hardcoded here.
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:erpdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER:org.h2.Driver}
+
+  jpa:
+    database-platform: ${SPRING_JPA_PLATFORM:org.hibernate.dialect.H2Dialect}
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  # H2 Console (disabled in production for security)
+  h2:
+    console:
+      enabled: ${H2_CONSOLE_ENABLED:false}
+
+  # Connection pool tuning for Aiven free tier (max 5 connections)
+  hikari:
+    maximum-pool-size: ${DB_POOL_SIZE:3}
+    connection-timeout: 30000
+    idle-timeout: 600000
+    max-lifetime: 1800000
+
+# JWT Secret — inject a long random string via Render environment variable
+app:
+  jwt:
+    secret: ${JWT_SECRET:9a4f2c8d3b7a1e6f5c8d2a4b7e9f1c3d5a7b9e2f4c6d8a0b3c5e7f9a1b3d5e7f}
+    expiration-ms: 86400000
+
+# CORS — allow your Vercel frontend domain
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+
+# Actuator (health check endpoint used by Render health check)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
