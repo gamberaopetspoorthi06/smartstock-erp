@@ -93,9 +93,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
                   type="button"
                   className="btn btn-outline btn-sm"
                   style={{ fontSize: '0.75rem' }}
-                  onClick={() => handleQuickLogin('staff', 'ROLE_USER')}
+                  onClick={() => handleQuickLogin('staff', 'ROLE_STAFF')}
                 >
-                  Staff (ROLE_USER)
+                  Staff (ROLE_STAFF)
                 </button>
               </div>
             </div>
